@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agent - VPS Dashboard">
+    <meta name="author" content="Hyperflash">
+    <meta name="theme-color" content="#fafaf9">
+    <script defer src="https://umami.hyperflash.uk/script.js"
+        data-website-id="e241baef-c722-4136-b643-59c025d0cfaa"></script>
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token":"73c22e1949594603a05fa23b29997570"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agent.hyperflash.uk/">
+    <meta property="og:title" content="Agent - VPS Dashboard">
+    <meta property="og:description" content="AI-powered VPS monitoring dashboard">
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='20' y='20' width='60' height='60' rx='12' fill='%23f97316'/></svg>">
+
+    <title>Agent | VPS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Refined spacing scale */
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+
+            /* Soft, layered shadows */
+            --shadow-soft: 0 20px 40px -12px rgba(0, 0, 0, 0.1), 0 8px 20px -8px rgba(0, 0, 0, 0.05);
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+            --shadow-glow-orange: 0 20px 40px -12px rgba(249, 115, 22, 0.25);
+            --shadow-glow-teal: 0 20px 40px -12px rgba(20, 184, 166, 0.2);
+
+            /* Warm, inviting background */
+            --color-bg: #fafaf9;
+
+            /* Beautiful gradients */
+            --gradient-sunset: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+            --gradient-ocean: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            --gradient-soft: linear-gradient(135deg, #ffffff 0%, #fafaf9 100%);
+            --gradient-emerald: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+            --gradient-midnight: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+            --gradient-rose: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+
+            /* Core colors */
+            --bg-dark: #0f172a;
+            --bg-white: #ffffff;
+
+            /* Typography colors */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --text-white: #ffffff;
+
+            /* Accent colors */
+            --accent-orange: #f97316;
+            --accent-green: #10b981;
+            --accent-teal: #14b8a6;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-sunset);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.125rem;
+            letter-spacing: -0.02em;
+            box-shadow: var(--shadow-glow-orange);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.375rem;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 12px 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-link:hover {
+            color: var(--text-white);
+            background: var(--gradient-sunset);
+            border-color: transparent;
+            box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-link:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(20, 184, 166, 0.08) 100%);
+            color: var(--accent-green);
+            padding: 8px 14px;
+            border-radius: 100px;
+            letter-spacing: -0.01em;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            font-family: var(--font-mono);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.1);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.85);
+            }
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cards-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cards-single {
+            display: grid;
+            grid-template-columns: 1fr;
+            max-width: 400px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cards-grid-half {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        /* Card 1: Sunset Gradient */
+        .card-gradient {
+            background: var(--gradient-sunset);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+            box-shadow: 0 20px 40px -12px rgba(249, 115, 22, 0.3);
+        }
+
+        .card-gradient:hover {
+            box-shadow: 0 28px 50px -12px rgba(249, 115, 22, 0.45);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            padding: 8px 14px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+            align-self: flex-start;
+        }
+
+        .card-gradient h2 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            letter-spacing: -0.035em;
+        }
+
+        .card-gradient p {
+            font-size: 0.9375rem;
+            line-height: 1.65;
+            opacity: 0.9;
+            margin-bottom: auto;
+            font-weight: 450;
+            letter-spacing: -0.01em;
+        }
+
+        .uptime-display {
+            margin-top: 28px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .uptime-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            font-feature-settings: 'tnum';
+        }
+
+        .uptime-label {
+            font-size: 0.875rem;
+            opacity: 0.85;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        /* Card 2: Ocean Dark */
+        .card-stats {
+            background: var(--gradient-ocean);
+            color: var(--text-white);
+            min-height: 320px;
+            box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.4);
+        }
+
+        .card-stats:hover {
+            box-shadow: 0 28px 50px -12px rgba(15, 23, 42, 0.5);
+        }
+
+        .stat-block {
+            margin-bottom: 28px;
+        }
+
+        .stat-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            font-feature-settings: 'tnum';
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stat-sub {
+            font-size: 0.875rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .stat-sub-text {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        /* Card 3: Soft White */
+        .card-info {
+            background: var(--gradient-soft);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+        }
+
+        .card-info:hover {
+            box-shadow: var(--shadow-soft);
+        }
+
+        .info-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-bottom: 14px;
+        }
+
+        .card-info h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            line-height: 1.25;
+            letter-spacing: -0.03em;
+        }
+
+        .card-info h2 span {
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .info-desc {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: auto;
+            font-weight: 450;
+            letter-spacing: -0.01em;
+        }
+
+        .services-tags {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .service-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            background: rgba(15, 23, 42, 0.04);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            letter-spacing: -0.01em;
+            transition: background 0.2s ease;
+        }
+
+        .service-tag:hover {
+            background: rgba(15, 23, 42, 0.08);
+        }
+
+        /* Docker Containers */
+        .card-docker {
+            background: linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%);
+            color: var(--text-white);
+            min-height: 200px;
+        }
+
+        .card-docker:hover {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .docker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .docker-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .docker-logo {
+            font-size: 1.25rem;
+        }
+
+        .docker-count {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            background: rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .docker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .docker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+
+        .docker-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .docker-item-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .docker-item-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+
+        .docker-item-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .docker-item-image {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: right;
+        }
+
+        /* Card 10: Quick Actions */
+        .card-actions {
+            background: var(--gradient-soft);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            color: var(--text-primary);
+            min-height: 200px;
+        }
+
+        .card-actions:hover {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .actions-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: var(--bg-white);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: var(--text-primary);
+            color: var(--text-white);
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-icon {
+            font-size: 1.125rem;
+        }
+
+        .action-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Logs Preview */
+        .card-logs {
+            background: linear-gradient(135deg, #1c1917 0%, #292524 50%, #44403c 100%);
+            color: var(--text-white);
+            min-height: 200px;
+            font-family: var(--font-mono);
+        }
+
+        .card-logs:hover {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .logs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-family: var(--font-main);
+        }
+
+        .logs-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logs-badge {
+            font-size: 0.5625rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .logs-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.6875rem;
+            line-height: 1.5;
+        }
+
+        .log-line {
+            display: flex;
+            gap: 8px;
+        }
+
+        .log-time {
+            color: #737373;
+            flex-shrink: 0;
+        }
+
+        .log-level {
+            flex-shrink: 0;
+            font-weight: 600;
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+
+        .log-level.info {
+            color: #60a5fa;
+        }
+
+        .log-level.success {
+            color: #4ade80;
+        }
+
+        .log-level.warn {
+            color: #fbbf24;
+        }
+
+        .log-message {
+            color: #d4d4d4;
+        }
+
+        /* Notices Section */
+        .notices-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+        }
+
+        .section-badge {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--accent-orange);
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .section-link {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .section-link:hover {
+            opacity: 0.7;
+        }
+
+        .notices-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notice {
+            display: flex;
+            gap: 20px;
+            padding: 24px 28px;
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .notice:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .notice-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .notice-warning .notice-icon {
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .notice-info .notice-icon {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .notice-success .notice-icon {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .notice-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 16px;
+        }
+
+        .notice-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .notice-date {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .notice-text {
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 1000px) {
+            .notice {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .notice-header {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        /* Card 13: SSL Certificate - Holographic Shield */
+        .card-ssl {
+            background: #0a0a0a;
+            color: var(--text-white);
+            min-height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-ssl::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 80% at 80% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .card-ssl::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(from 0deg, transparent, rgba(16, 185, 129, 0.1), transparent 30%);
+            animation: ssl-rotate 8s linear infinite;
+        }
+
+        @keyframes ssl-rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .card-ssl:hover {
+            box-shadow: 0 0 60px -12px rgba(16, 185, 129, 0.4);
+        }
+
+        .ssl-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ssl-shield {
+            width: 72px;
+            height: 84px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .ssl-shield::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+        }
+
+        .ssl-shield::after {
+            content: '✓';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .ssl-domain {
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ssl-expiry {
+            text-align: center;
+        }
+
+        .ssl-days {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: white;
+        }
+
+        .ssl-days span {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.5;
+            margin-left: 6px;
+            letter-spacing: 0;
+        }
+
+        .ssl-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.4;
+            margin-top: 4px;
+        }
+
+        /* Card 14: Resource Usage */
+        .card-resources {
+            background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+            color: var(--text-white);
+            min-height: 220px;
+        }
+
+        .card-resources:hover {
+            box-shadow: 0 20px 60px -12px rgba(59, 130, 246, 0.3);
+        }
+
+        .resources-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .resource-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .resource-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resource-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.7;
+        }
+
+        .resource-value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            font-feature-settings: 'tnum';
+        }
+
+        .resource-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .resource-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .resource-bar-fill.cpu {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+
+        .resource-bar-fill.mem {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+
+        .resource-bar-fill.disk {
+            background: linear-gradient(90deg, #f97316, #fb923c);
+        }
+
+        .resource-net-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+        }
+
+        .cpu-cores {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .cpu-core {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .cpu-core-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease, background 0.3s ease;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+
+        .cpu-core-fill.high {
+            background: linear-gradient(90deg, #f97316, #fb923c);
+        }
+
+        .cpu-core-fill.critical {
+            background: linear-gradient(90deg, #ef4444, #f87171);
+        }
+
+        .net-rx {
+            color: #34d399;
+        }
+
+        .net-tx {
+            color: #60a5fa;
+        }
+
+        /* Card 15: Deployments - Git Flow */
+        .card-stats-mini {
+            background: #fafafa;
+            color: var(--text-primary);
+            min-height: 220px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-stats-mini:hover {
+            box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stats-mini-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .stats-mini-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .stats-mini-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stats-mini-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
+            font-feature-settings: 'tnum';
+        }
+
+        .stats-mini-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        /* Card 16: Visitor Stats - Wave Analytics */
+        .card-visitors {
+            background: var(--gradient-sunset);
+            color: #1a0a00;
+            min-height: 220px;
+            position: relative;
+            box-shadow: 0 20px 40px -12px rgba(249, 115, 22, 0.3);
+        }
+
+        .card-visitors:hover {
+            box-shadow: 0 28px 50px -12px rgba(249, 115, 22, 0.45);
+        }
+
+        .visitors-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .visitors-count {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: #1a0a00;
+        }
+
+        .visitors-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            margin-top: 4px;
+            color: #1a0a00;
+        }
+
+        .visitors-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 100px;
+            color: #1a0a00;
+            font-size: 0.8125rem;
+            font-weight: 700;
+        }
+
+        .visitors-stats {
+            display: flex;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+            margin-top: 8px;
+        }
+
+        .visitor-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .visitor-stat-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .visitor-stat-value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            font-feature-settings: 'tnum';
+            color: #1a0a00;
+        }
+
+        .visitor-stat-label {
+            font-size: 0.6875rem;
+            opacity: 0.6;
+            color: #1a0a00;
+        }
+
+        /* Scheduled Tasks - Timeline */
+        .card-cron {
+            background: #ffffff;
+            color: var(--text-primary);
+            min-height: 220px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .card-cron:hover {
+            box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cron-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .cron-timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .cron-timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: linear-gradient(180deg, #f97316, #ec4899, #8b5cf6);
+            border-radius: 1px;
+        }
+
+        .cron-event {
+            position: relative;
+            padding: 12px 0;
+        }
+
+        .cron-event::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 3px solid;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cron-event:nth-child(1)::before {
+            border-color: #f97316;
+        }
+
+        .cron-event:nth-child(2)::before {
+            border-color: #ec4899;
+        }
+
+        .cron-event:nth-child(3)::before {
+            border-color: #8b5cf6;
+        }
+
+        .cron-event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .cron-event-name {
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .cron-event-time {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-feature-settings: 'tnum';
+        }
+
+        .cron-event-schedule {
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Bottom Panel */
+        .panel {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+        }
+
+        .panel-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-section:first-child {
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .panel-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .panel-badge {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--accent-orange);
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Terminal */
+        .terminal {
+            background: var(--bg-dark);
+            padding: 20px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: #e2e8f0;
+            height: 220px;
+            min-height: 220px;
+            max-height: 220px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .terminal-line,
+        .terminal-output {
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .terminal-line.fade-out,
+        .terminal-output.fade-out {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .terminal::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .terminal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .terminal::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 2px;
+        }
+
+        .terminal-line {
+            margin-bottom: 6px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        .terminal-output {
+            color: var(--accent-teal);
+            padding-left: 24px;
+            margin-bottom: 8px;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.15em;
+            background: var(--accent-orange);
+            border-radius: 2px;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Activity */
+        .activity-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: background 0.5s ease;
+            background: var(--accent-green);
+        }
+
+        .activity-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: opacity 0.5s ease;
+        }
+
+        .activity-text.fade {
+            opacity: 0;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding-top: 48px;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-brand {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .footer-brand a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-brand a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-time {
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.03);
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-feature-settings: 'tnum';
+        }
+
+        /* About Section */
+        .about-section {
+            margin-top: 40px;
+        }
+
+        .card-about {
+            background: var(--gradient-ocean);
+            color: var(--text-white);
+            padding: 48px;
+        }
+
+        .card-about:hover {
+            box-shadow: 0 28px 60px -12px rgba(15, 23, 42, 0.5);
+        }
+
+        .about-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .about-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .about-version {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(249, 115, 22, 0.2);
+            color: #fb923c;
+            border-radius: 100px;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .about-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 16px;
+            max-width: 720px;
+        }
+
+        .about-system {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 28px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .about-system-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .about-system-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .about-system-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            font-family: var(--font-mono);
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .about-tag {
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .about-tag:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .about-system {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            margin: 20px;
+            position: relative;
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 0.9375rem;
+            font-family: var(--font-main);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-md);
+            background: var(--bg-white);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 14px 24px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            font-family: var(--font-main);
+            color: var(--text-white);
+            background: var(--gradient-sunset);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.4);
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -6px rgba(249, 115, 22, 0.5);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 10px 16px;
+                font-size: 0.8125rem;
+            }
+
+            .cards-grid,
+            .cards-grid-2,
+            .cards-grid-half {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: auto;
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-section:first-child {
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .temp-display {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .temp-readings {
+                width: 100%;
+            }
+
+            .visitors-stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .visitor-stat {
+                justify-content: flex-start;
+            }
+
+            .deploy-branch {
+                left: 19px;
+            }
+
+            .process-row {
+                grid-template-columns: 24px 1fr 40px 40px;
+                gap: 8px;
+            }
+
+            .cron-timeline {
+                padding-left: 20px;
+            }
+
+            .cron-event::before {
+                left: -20px;
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            .header {
+                gap: 12px;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 8px 14px;
+                font-size: 0.75rem;
+            }
+
+            .logo-mark {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.125rem;
+            }
+
+            .card {
+                padding: 28px;
+            }
+
+            .card-gradient h2 {
+                font-size: 1.625rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .docker-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .docker-item-image {
+                margin-left: 18px;
+            }
+
+            .logs-content {
+                font-size: 0.625rem;
+            }
+
+            .log-message {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 120px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                padding-top: 32px;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-mark">A</div>
+                <span class="logo-text">Agent</span>
+                <div class="status-pill"><span class="status-dot"></span>Connecting...</div>
+            </div>
+            <nav class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <button class="nav-link" id="contact-btn">Contact</button>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <!-- Main Cards -->
+            <div class="cards-grid-half">
+                <!-- Card 1: Sunset Gradient -->
+                <article class="card card-gradient">
+                    <div class="badge">Live Metrics</div>
+                    <h2>Real-time VPS<br>Monitoring</h2>
+                    <p>Lightweight Python agent reading directly from /proc for accurate metrics without overhead.</p>
+                    <div class="uptime-display">
+                        <span class="uptime-value" id="uptime-value">--</span>
+                        <span class="uptime-label">uptime</span>
+                    </div>
+                </article>
+
+
+                <!-- Card 2: Soft White -->
+                <article class="card card-info">
+                    <div class="info-label">Architecture</div>
+                    <h2>Python Agent<br><span>+ Cloudflare Tunnel</span></h2>
+                    <p class="info-desc">Metrics served through Cloudflare Tunnel with origin protection. No exposed ports, no public IP.</p>
+                    <div class="services-tags">
+                        <span class="service-tag">Docker</span>
+                        <span class="service-tag">Caddy</span>
+                        <span class="service-tag">Cloudflared</span>
+                        <span class="service-tag">Tailscale</span>
+                        <span class="service-tag">SSH</span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- News Section -->
+            <section class="notices-section" id="news">
+                <div class="section-header">
+                    <h2 class="section-title">News</h2>
+                </div>
+                <article class="notice notice-info">
+                    <div class="notice-icon">🚀</div>
+                    <div class="notice-content">
+                        <div class="notice-header">
+                            <h3 class="notice-title">New Region Available: Singapore</h3>
+                            <time class="notice-date">Jan 10, 2026</time>
+                        </div>
+                        <p class="notice-text">We've expanded to Singapore! Migrate your workloads for improved latency
+                            across Asia-Pacific.</p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Cards Row -->
+            <div class="cards-grid" id="dashboard">
+                <!-- Docker Containers -->
+                <article class="card card-docker">
+                    <div class="docker-header">
+                        <div class="docker-title">
+                            <span class="docker-logo">🐳</span>
+                            <span>Containers</span>
+                        </div>
+                        <div class="docker-count">-- Running</div>
+                    </div>
+                    <div class="docker-list">
+                        <div class="docker-item">
+                            <div class="docker-item-info">
+                                <div class="docker-item-status"></div>
+                                <span class="docker-item-name">Loading...</span>
+                            </div>
+                            <span class="docker-item-image">--</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Top Processes -->
+                <article class="card card-docker">
+                    <div class="docker-header">
+                        <div class="docker-title">
+                            <span class="docker-logo">⚡</span>
+                            <span>Top Processes</span>
+                        </div>
+                        <div class="docker-count" id="proc-count">-- procs</div>
+                    </div>
+                    <div class="docker-list" id="top-procs">
+                        <div class="docker-item">
+                            <div class="docker-item-info">
+                                <span class="docker-item-name">Loading...</span>
+                            </div>
+                            <span class="docker-item-image">--%</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Logs Preview -->
+                <article class="card card-logs">
+                    <div class="logs-header">
+                        <span class="logs-title">System Logs</span>
+                        <span class="logs-badge">Live</span>
+                    </div>
+                    <div class="logs-content">
+                    </div>
+                </article>
+            </div>
+
+            <!-- Second Cards Row -->
+            <div class="cards-grid">
+                <!-- Server Info - Holographic Shield -->
+                <article class="card card-ssl">
+                    <div class="ssl-content">
+                        <div class="ssl-shield"></div>
+                        <div class="ssl-domain">agent.hyperflash.uk</div>
+                        <div class="ssl-expiry">
+                            <div class="ssl-days" id="tcp-conns">--<span>connections</span></div>
+                            <div class="ssl-label" id="server-cpu-info">--</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 14: Resource Usage -->
+                <article class="card card-resources">
+                    <div class="resources-title">Resource Usage</div>
+                    <div class="resources-list">
+                        <div class="resource-item">
+                            <div class="resource-header">
+                                <span class="resource-label">CPU</span>
+                                <span class="resource-value" id="res-cpu">--%</span>
+                            </div>
+                            <div class="resource-bar">
+                                <div class="resource-bar-fill cpu" id="res-cpu-bar" style="width: 0%"></div>
+                            </div>
+                            <div class="cpu-cores" id="cpu-cores"></div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-header">
+                                <span class="resource-label">Memory</span>
+                                <span class="resource-value" id="res-mem">--%</span>
+                            </div>
+                            <div class="resource-bar">
+                                <div class="resource-bar-fill mem" id="res-mem-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-header">
+                                <span class="resource-label">Disk</span>
+                                <span class="resource-value" id="res-disk">--%</span>
+                            </div>
+                            <div class="resource-bar">
+                                <div class="resource-bar-fill disk" id="res-disk-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-header">
+                                <span class="resource-label">Network</span>
+                                <span class="resource-value" id="res-net">-- / --</span>
+                            </div>
+                            <div class="resource-net-stats">
+                                <span class="net-rx">↓ <span id="net-rx">--</span></span>
+                                <span class="net-tx">↑ <span id="net-tx">--</span></span>
+                            </div>
+                        </div>
+                        <div class="resource-item">
+                            <div class="resource-header">
+                                <span class="resource-label">Disk I/O</span>
+                                <span class="resource-value" id="res-disk-io">--</span>
+                            </div>
+                            <div class="resource-net-stats">
+                                <span class="net-rx">R <span id="disk-read">--</span></span>
+                                <span class="net-tx">W <span id="disk-write">--</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 15: System Stats -->
+                <article class="card card-stats-mini">
+                    <div class="stats-mini-title">System Stats</div>
+                    <div class="stats-mini-grid">
+                        <div class="stats-mini-item">
+                            <div class="stats-mini-value" id="stat-load">--</div>
+                            <div class="stats-mini-label">Load Avg</div>
+                        </div>
+                        <div class="stats-mini-item">
+                            <div class="stats-mini-value" id="stat-procs">--</div>
+                            <div class="stats-mini-label">Processes</div>
+                        </div>
+                        <div class="stats-mini-item">
+                            <div class="stats-mini-value" id="stat-uptime">--</div>
+                            <div class="stats-mini-label">Uptime</div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Activity Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="activity-row">
+                        <span class="panel-title">Activity:</span>
+                        <span class="activity-dot" id="activity-dot"></span>
+                        <span class="activity-text" id="activity-text">--</span>
+                    </div>
+                    <span class="panel-badge">Live</span>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <section class="about-section" id="about">
+                <article class="card card-about">
+                    <div class="about-content">
+                        <div class="about-header">
+                            <h2 class="about-title">About Agent</h2>
+                            <span class="about-version" id="about-version">--</span>
+                        </div>
+                        <p class="about-text">A custom Python metrics agent that reads directly from the /proc filesystem, delivering accurate real-time system statistics. No heavy monitoring stack, no database, just a lightweight HTTP server.</p>
+                        <p class="about-text">Served through Cloudflare Tunnel for security. Origin-protected API ensures metrics are only accessible from this dashboard.</p>
+                        <div class="about-system" id="about-system">
+                            <div class="about-system-item">
+                                <span class="about-system-label">OS</span>
+                                <span class="about-system-value" id="about-os">--</span>
+                            </div>
+                            <div class="about-system-item">
+                                <span class="about-system-label">CPU</span>
+                                <span class="about-system-value" id="about-cpu">--</span>
+                            </div>
+                            <div class="about-system-item">
+                                <span class="about-system-label">Memory</span>
+                                <span class="about-system-value" id="about-mem">--</span>
+                            </div>
+                            <div class="about-system-item">
+                                <span class="about-system-label">Storage</span>
+                                <span class="about-system-value" id="about-disk">--</span>
+                            </div>
+                        </div>
+                        <div class="about-tags">
+                            <span class="about-tag">Python</span>
+                            <span class="about-tag">/proc Filesystem</span>
+                            <span class="about-tag">Cloudflare Tunnel</span>
+                            <span class="about-tag">Zero Dependencies</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+
+        <!-- Contact Modal -->
+        <div class="modal-overlay" id="contact-modal">
+            <div class="modal">
+                <button class="modal-close" id="modal-close">&times;</button>
+                <h2 class="modal-title">Get in Touch</h2>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" id="name" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="message">Message</label>
+                        <textarea id="message" class="form-input form-textarea" placeholder="How can we help?" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-brand">
+                Powered by <a href="https://hyperflash.uk" target="_blank" rel="noopener noreferrer">Hyperflash</a>
+            </div>
+            <div class="footer-time" id="time">00:00:00</div>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // AGENT API INTEGRATION
+        // ============================================
+        const AGENT_API = 'https://api.hyperflash.uk/metrics?token=eb30001369493ab1983493e2d7e41bdefae49b8be0d937eee461fd359ff0cf0d';
+        const CONTACT_API = 'https://agent-api.hyperflash.workers.dev';
+
+        // Cache for metrics
+        let metricsCache = {
+            uptime: 0,
+            cpu: 0,
+            memory: { used: 0, total: 0, percent: 0 },
+            disk: { used: 0, avail: 0, total: 0, percent: 0 },
+            containers: [],
+            load: [0, 0, 0],
+            network: { rx: 0, tx: 0 },
+            processes: 0,
+            hostname: '',
+            system: { os: '', cpu_model: '', cpu_count: 0 },
+            cpu_cores: [],
+            tcp: { total: 0, established: 0, listen: 0, time_wait: 0 },
+            disk_io: [],
+            top_processes: [],
+            logs: [],
+            agent_version: '',
+            lastUpdate: Date.now()
+        };
+
+
+        // Utility functions
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function formatUptime(seconds) {
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            if (days > 0) return `${days}d ${hours}h`;
+            if (hours > 0) return `${hours}h ${mins}m`;
+            return `${mins}m`;
+        }
+
+        function formatBytes(bytes, decimals = 1) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+        }
+
+        // ============================================
+        // UPDATE FUNCTIONS
+        // ============================================
+
+        async function updateAllMetrics() {
+            try {
+                const response = await fetch(AGENT_API);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+
+                // Update cache from agent response
+                metricsCache.agent_version = data.agent_version || '';
+                metricsCache.uptime = data.uptime?.uptime_seconds || data.uptime || 0;
+                metricsCache.cpu = typeof data.cpu === 'object' ? (data.cpu?.percent || 0) : (data.cpu || 0);
+                metricsCache.cpu_cores = data.cpu?.cores || [];
+                metricsCache.memory = {
+                    used: data.memory?.used || 0,
+                    total: data.memory?.total || 0,
+                    percent: data.memory?.percent || 0
+                };
+                // Disk (from root filesystem)
+                const rootFs = Array.isArray(data.filesystems)
+                    ? data.filesystems.find(f => f.mount === '/') || data.filesystems[0]
+                    : data.disk;
+                metricsCache.disk = {
+                    used: rootFs?.used || 0,
+                    avail: rootFs?.available || 0,
+                    total: rootFs?.total || 0,
+                    percent: rootFs?.percent || 0
+                };
+                metricsCache.load = [data.load?.load1 || 0, data.load?.load5 || 0, data.load?.load15 || 0];
+                metricsCache.processes = data.load?.processes_total || 0;
+
+                // Network rates (from first interface, convert bytes/s to kbps)
+                const primaryNet = Array.isArray(data.network) ? data.network[0] : data.network;
+                metricsCache.network.rx = ((primaryNet?.rx_bytes_sec || 0) * 8) / 1000;
+                metricsCache.network.tx = ((primaryNet?.tx_bytes_sec || 0) * 8) / 1000;
+
+                // Containers (agent returns objects with name/status/image)
+                metricsCache.containers = (data.containers || []).map(c => ({
+                    name: c.name || c,
+                    status: c.status || 'running',
+                    image: c.image || ''
+                }));
+
+                // Hostname and system info
+                metricsCache.hostname = data.hostname || '';
+                metricsCache.system = {
+                    os: data.system?.os || '',
+                    cpu_model: data.system?.cpu_model || '',
+                    cpu_count: data.system?.cpu_count || 0
+                };
+
+                // Disk I/O
+                metricsCache.disk_io = data.disk_io || [];
+
+                // Top processes
+                metricsCache.top_processes = data.processes || [];
+
+                // TCP connections
+                metricsCache.tcp = {
+                    total: data.tcp?.total || 0,
+                    established: data.tcp?.established || 0,
+                    listen: data.tcp?.listen || 0,
+                    time_wait: data.tcp?.time_wait || 0
+                };
+
+                // Real logs from agent
+                metricsCache.logs = data.logs || [];
+
+                metricsCache.lastUpdate = Date.now();
+
+                // Update logs display with real data
+                updateLogsUI(metricsCache.logs);
+
+                // Update UI
+                updateDashboardUI();
+                updateDockerUI(metricsCache.containers);
+                updateTopProcesses(metricsCache.top_processes);
+
+            } catch (error) {
+                console.warn('Failed to fetch metrics:', error.message);
+            }
+        }
+
+        // ============================================
+        // UI UPDATE FUNCTIONS
+        // ============================================
+
+        function updateDashboardUI() {
+            // Update uptime display
+            const uptimeEl = document.getElementById('uptime-value');
+            if (uptimeEl && metricsCache.uptime > 0) {
+                uptimeEl.textContent = formatUptime(metricsCache.uptime);
+            }
+
+            // Update status pill with connection status
+            const statusPill = document.querySelector('.status-pill');
+            if (statusPill) {
+                statusPill.innerHTML = '<span class="status-dot"></span>connected';
+            }
+
+            // Update service tags to show real container names
+            const serviceTags = document.querySelector('.services-tags');
+            if (serviceTags && metricsCache.containers.length > 0) {
+                const containerNames = metricsCache.containers.map(c => c.name.charAt(0).toUpperCase() + c.name.slice(1));
+                serviceTags.innerHTML = containerNames.map(name =>
+                    `<span class="service-tag">${name}</span>`
+                ).join('');
+            }
+
+            // Update Resource Usage card
+            updateResourceCard();
+
+            // Update Server Info card
+            updateServerInfoCard();
+
+            // Update About card
+            updateAboutCard();
+        }
+
+        function updateAboutCard() {
+            const versionEl = document.getElementById('about-version');
+            const osEl = document.getElementById('about-os');
+            const cpuEl = document.getElementById('about-cpu');
+            const memEl = document.getElementById('about-mem');
+            const diskEl = document.getElementById('about-disk');
+
+            if (versionEl && metricsCache.agent_version) {
+                versionEl.textContent = `Agent v${metricsCache.agent_version}`;
+            }
+            if (osEl && metricsCache.system.os) {
+                osEl.textContent = metricsCache.system.os.replace('GNU/Linux ', '');
+            }
+            if (cpuEl && metricsCache.system.cpu_model) {
+                const model = metricsCache.system.cpu_model.replace('AMD ', '').replace('Intel ', '').replace(' Processor', '');
+                cpuEl.textContent = `${metricsCache.system.cpu_count}x ${model}`;
+            }
+            if (memEl && metricsCache.memory.total) {
+                memEl.textContent = formatBytes(metricsCache.memory.total);
+            }
+            if (diskEl && metricsCache.disk.total) {
+                diskEl.textContent = formatBytes(metricsCache.disk.total);
+            }
+        }
+
+        function updateServerInfoCard() {
+            const tcpEl = document.getElementById('tcp-conns');
+            const cpuInfoEl = document.getElementById('server-cpu-info');
+
+            if (tcpEl) tcpEl.innerHTML = `${metricsCache.tcp.established}<span>connections</span>`;
+            // Show CPU model (shortened)
+            if (cpuInfoEl) {
+                const model = metricsCache.system.cpu_model || '';
+                const short = model.replace('AMD ', '').replace('Intel ', '').replace(' Processor', '').substring(0, 20);
+                cpuInfoEl.textContent = short ? `${metricsCache.system.cpu_count}x ${short}` : '--';
+            }
+        }
+
+        function updateResourceCard() {
+            // CPU
+            const cpuVal = document.getElementById('res-cpu');
+            const cpuBar = document.getElementById('res-cpu-bar');
+            const cpuCores = document.getElementById('cpu-cores');
+            if (cpuVal) cpuVal.textContent = metricsCache.cpu.toFixed(1) + '%';
+            if (cpuBar) cpuBar.style.width = Math.min(metricsCache.cpu, 100) + '%';
+
+            // Per-core CPU bars
+            if (cpuCores && metricsCache.cpu_cores.length > 0) {
+                cpuCores.innerHTML = metricsCache.cpu_cores.map(core => {
+                    const pct = core.percent || 0;
+                    const cls = pct > 80 ? 'critical' : pct > 50 ? 'high' : '';
+                    return `<div class="cpu-core" title="Core ${core.id}: ${pct.toFixed(1)}%">
+                        <div class="cpu-core-fill ${cls}" style="width: ${pct}%"></div>
+                    </div>`;
+                }).join('');
+            }
+
+            // Memory
+            const memVal = document.getElementById('res-mem');
+            const memBar = document.getElementById('res-mem-bar');
+            if (memVal) memVal.textContent = metricsCache.memory.percent + '%';
+            if (memBar) memBar.style.width = metricsCache.memory.percent + '%';
+
+            // Disk
+            const diskVal = document.getElementById('res-disk');
+            const diskBar = document.getElementById('res-disk-bar');
+            if (diskVal) diskVal.textContent = `${formatBytes(metricsCache.disk.avail)} free`;
+            if (diskBar) diskBar.style.width = metricsCache.disk.percent + '%';
+
+            // Network
+            const netRx = document.getElementById('net-rx');
+            const netTx = document.getElementById('net-tx');
+            if (netRx) netRx.textContent = formatSpeed(metricsCache.network.rx);
+            if (netTx) netTx.textContent = formatSpeed(metricsCache.network.tx);
+
+            // Disk I/O
+            const diskRead = document.getElementById('disk-read');
+            const diskWrite = document.getElementById('disk-write');
+            if (metricsCache.disk_io.length > 0) {
+                const io = metricsCache.disk_io[0]; // Primary disk
+                if (diskRead) diskRead.textContent = formatBytes(io.read_bytes_sec || 0) + '/s';
+                if (diskWrite) diskWrite.textContent = formatBytes(io.write_bytes_sec || 0) + '/s';
+            }
+
+            // System Stats card
+            const statLoad = document.getElementById('stat-load');
+            const statProcs = document.getElementById('stat-procs');
+            const statUptime = document.getElementById('stat-uptime');
+            if (statLoad) statLoad.textContent = metricsCache.load[0]?.toFixed(2) || '--';
+            if (statProcs) statProcs.textContent = metricsCache.processes || '--';
+            if (statUptime) statUptime.textContent = formatUptime(metricsCache.uptime);
+        }
+
+        // Update logs UI with real logs from agent
+        function updateLogsUI(logs) {
+            const logsContent = document.querySelector('.logs-content');
+            if (!logsContent || !logs || logs.length === 0) return;
+
+            // Clear and rebuild with real logs
+            logsContent.innerHTML = logs.slice(-5).map(log => `
+                <div class="log-line">
+                    <span class="log-time">${log.time}</span>
+                    <span class="log-level ${log.level}">${(log.source || log.level).toUpperCase()}</span>
+                    <span class="log-message">${log.message}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateTopProcesses(processes) {
+            const procCount = document.getElementById('proc-count');
+            const procList = document.getElementById('top-procs');
+
+            if (procCount) {
+                procCount.textContent = `${metricsCache.processes} procs`;
+            }
+
+            if (procList && processes.length > 0) {
+                procList.innerHTML = processes.slice(0, 5).map(p => `
+                    <div class="docker-item">
+                        <div class="docker-item-info">
+                            <span class="docker-item-name">${p.name}</span>
+                        </div>
+                        <span class="docker-item-image">${p.cpu.toFixed(1)}%</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function updateDockerUI(containers) {
+            const dockerCount = document.querySelector('.docker-count');
+            const dockerList = document.querySelector('.docker-list');
+
+            if (dockerCount) {
+                dockerCount.textContent = containers.length + ' Running';
+            }
+
+            if (dockerList && containers.length > 0) {
+                dockerList.innerHTML = containers.slice(0, 5).map(c => `
+                    <div class="docker-item">
+                        <div class="docker-item-info">
+                            <div class="docker-item-status"></div>
+                            <span class="docker-item-name">${c.name}</span>
+                        </div>
+                        <span class="docker-item-image">${c.image || c.status}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Format network speed (input is kilobits/s from netdata)
+        function formatSpeed(kbps) {
+            if (kbps >= 1000000) return (kbps / 1000000).toFixed(1) + ' Gbps';
+            if (kbps >= 1000) return (kbps / 1000).toFixed(1) + ' Mbps';
+            return kbps.toFixed(0) + ' Kbps';
+        }
+
+        // ============================================
+        // TIME & STATIC FUNCTIONS
+        // ============================================
+
+        function updateTime() {
+            const now = new Date();
+            const timeEl = document.getElementById('time');
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Activity ticker - single line that fades and updates
+        function getActivityMessage() {
+            const activities = [
+                { text: `CPU at ${metricsCache.cpu.toFixed(1)}%`, color: metricsCache.cpu > 70 ? '#f97316' : '#10b981' },
+                { text: `Memory: ${metricsCache.memory.percent}% used`, color: metricsCache.memory.percent > 80 ? '#f97316' : '#10b981' },
+                { text: `${metricsCache.containers.length} containers active`, color: '#3b82f6' },
+                { text: `Load: ${metricsCache.load[0]?.toFixed(2) || '0.00'}`, color: '#14b8a6' },
+                { text: `Disk: ${metricsCache.disk.percent}% used`, color: metricsCache.disk.percent > 80 ? '#f97316' : '#10b981' },
+                { text: `TCP: ${metricsCache.tcp?.established || 0} connections`, color: '#14b8a6' },
+                { text: 'Health check passed', color: '#10b981' },
+            ];
+            return activities[Math.floor(Math.random() * activities.length)];
+        }
+
+        function updateActivity() {
+            const textEl = document.getElementById('activity-text');
+            const dotEl = document.getElementById('activity-dot');
+            if (!textEl || !dotEl) return;
+
+            const a = getActivityMessage();
+
+            // Fade out
+            textEl.classList.add('fade');
+
+            // After fade out, update content and fade back in
+            setTimeout(() => {
+                textEl.textContent = a.text;
+                dotEl.style.background = a.color;
+                textEl.classList.remove('fade');
+            }, 500);
+        }
+
+        // Update every 3.5s (3s display + 0.5s fade transition)
+        setInterval(updateActivity, 3500);
+
+        // ============================================
+        // CONTACT FORM
+        // ============================================
+
+        const contactBtn = document.getElementById('contact-btn');
+        const contactModal = document.getElementById('contact-modal');
+        const modalClose = document.getElementById('modal-close');
+        const contactForm = document.getElementById('contact-form');
+
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        modalClose.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.classList.contains('active')) {
+                contactModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('.form-submit');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                const response = await fetch(`${CONTACT_API}/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    submitBtn.textContent = 'Sent!';
+                    setTimeout(() => {
+                        contactModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                        contactForm.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }, 1500);
+                } else {
+                    throw new Error('Failed to send');
+                }
+            } catch (error) {
+                console.error('Contact form error:', error);
+                submitBtn.textContent = 'Error - Try Again';
+                submitBtn.disabled = false;
+                setTimeout(() => {
+                    submitBtn.textContent = originalText;
+                }, 3000);
+            }
+        });
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+
+        async function initDashboard() {
+            console.log('Initializing dashboard with Agent...');
+
+            // Initial fetch
+            await updateAllMetrics();
+
+            // Set up periodic updates - every 2 seconds
+            setInterval(updateAllMetrics, 2000);
+        }
+
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initDashboard);
+        } else {
+            initDashboard();
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+# Example Docker Compose configuration
+# This is a reference config - your VPS may have different paths/names
+
+services:
+  metrics-agent:
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
+    container_name: metrics-agent
+    restart: unless-stopped
+    volumes:
+      - /proc:/proc:ro
+      - /sys:/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    group_add:
+      - "996"  # Docker socket group ID (check with `stat -c %G /var/run/docker.sock`)
+    networks:
+      - caddy_net
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+
+networks:
+  caddy_net:
+    driver: bridge
+    external: true

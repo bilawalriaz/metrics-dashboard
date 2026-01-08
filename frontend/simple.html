@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agent - VPS Dashboard">
+    <meta name="author" content="Hyperflash">
+    <meta name="theme-color" content="#f1f5f9">
+    <script defer src="https://umami.hyperflash.uk/script.js" data-website-id="e241baef-c722-4136-b643-59c025d0cfaa"></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agent.hyperflash.uk/">
+    <meta property="og:title" content="Agent - VPS Dashboard">
+    <meta property="og:description" content="AI-powered VPS monitoring dashboard">
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='20' y='20' width='60' height='60' rx='12' fill='%238b5cf6'/></svg>">
+
+    <title>Agent | VPS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius-card: 24px;
+            --radius-sm: 12px;
+            --radius-badge: 20px;
+            --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.15);
+            --shadow-subtle: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --color-bg: #f1f5f9;
+
+            --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #4c1d95 100%);
+            --bg-black: #000000;
+            --bg-white: #ffffff;
+
+            --text-white: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted-dark: #94a3b8;
+            --text-muted-light: #64748b;
+            --accent-green: #22c55e;
+            --accent-purple: #8b5cf6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-purple);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--accent-green);
+            padding: 8px 16px;
+            border-radius: var(--radius-badge);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.9); }
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+            align-items: stretch;
+        }
+
+        .card {
+            border-radius: var(--radius-card);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Card 1: Purple Gradient */
+        .card-gradient {
+            background: var(--gradient-purple);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: var(--radius-badge);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 24px;
+            align-self: flex-start;
+        }
+
+        .card-gradient h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .card-gradient p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .uptime-display {
+            margin-top: auto;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .uptime-value {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .uptime-label {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        /* Card 2: Stats Black */
+        .card-stats {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            border: 1px solid #333;
+        }
+
+        .stat-block {
+            margin-bottom: 32px;
+        }
+
+        .stat-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted-dark);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .stat-sub {
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            font-weight: 500;
+        }
+
+        .stat-sub-text {
+            color: var(--text-muted-dark);
+            font-size: 0.85rem;
+        }
+
+        /* Card 3: White Info */
+        .card-info {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted-light);
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .card-info h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .card-info h2 span {
+            color: var(--accent-purple);
+        }
+
+        .info-desc {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-muted-light);
+            margin-bottom: 24px;
+        }
+
+        .services-tags {
+            margin-top: auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .service-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            color: var(--text-muted-light);
+        }
+
+        /* Bottom Panels */
+        .panels-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+        }
+
+        .panel {
+            background: var(--bg-white);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .panel-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .panel-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+            border-radius: var(--radius-badge);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Terminal */
+        .terminal {
+            background: #0f172a;
+            padding: 20px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #e2e8f0;
+            height: 220px;
+            overflow-y: auto;
+        }
+
+        .terminal::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .terminal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .terminal::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 2px;
+        }
+
+        .terminal-line {
+            margin-bottom: 6px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        .terminal-output {
+            color: var(--accent-green);
+            padding-left: 22px;
+            margin-bottom: 8px;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background: var(--accent-purple);
+            border-radius: 1px;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Activity */
+        .activity-list {
+            padding: 8px 0;
+        }
+
+        .activity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            transition: background 0.2s ease;
+        }
+
+        .activity:hover {
+            background: #f8fafc;
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-muted-light);
+            margin-top: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-brand {
+            font-size: 0.85rem;
+            color: var(--text-muted-light);
+        }
+
+        .footer-brand a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-brand a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-time {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted-light);
+            background: var(--bg-white);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .panels-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .card-gradient h2 {
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-mark">A</div>
+                <span class="logo-text">Agent</span>
+            </div>
+            <div class="status-pill">
+                <div class="status-dot"></div>
+                All systems operational
+            </div>
+        </header>
+
+        <!-- Main Cards -->
+        <div class="cards-grid">
+            <!-- Card 1: Gradient -->
+            <article class="card card-gradient">
+                <div class="badge">AI-Powered VPS</div>
+                <h2>Your Server, On Autopilot</h2>
+                <p>Claude Code monitors and manages your VPS infrastructure around the clock, handling maintenance automatically.</p>
+                <div class="uptime-display">
+                    <span class="uptime-value">99.9%</span>
+                    <span class="uptime-label">uptime this month</span>
+                </div>
+            </article>
+
+            <!-- Card 2: Stats -->
+            <article class="card card-stats">
+                <div class="stat-block">
+                    <span class="stat-label">Commands Executed</span>
+                    <div class="stat-value" id="commands-count">1,492</div>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Tasks Completed</span>
+                    <div class="stat-row">
+                        <span class="stat-value" id="tasks-count">284</span>
+                        <span class="stat-sub">+142%</span>
+                        <span class="stat-sub-text">vs last month</span>
+                    </div>
+                </div>
+                <div class="stat-block">
+                    <span class="stat-label">Uptime</span>
+                    <div class="stat-row">
+                        <span class="stat-value" id="uptime-days">47</span>
+                        <span class="stat-sub-text">days</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3: Info -->
+            <article class="card card-info">
+                <div class="info-label">System Profile</div>
+                <h2>Running as <span>Infrastructure Agent</span></h2>
+                <p class="info-desc">Consistent service management with automated health checks, security scans, and performance optimizations.</p>
+                <div class="services-tags">
+                    <span class="service-tag">Docker</span>
+                    <span class="service-tag">Caddy</span>
+                    <span class="service-tag">Cloudflared</span>
+                    <span class="service-tag">Tailscale</span>
+                    <span class="service-tag">SSH</span>
+                </div>
+            </article>
+        </div>
+
+        <!-- Bottom Panels -->
+        <div class="panels-grid">
+            <!-- Terminal -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Terminal</span>
+                    <span class="panel-badge">Live</span>
+                </div>
+                <div class="terminal" id="terminal">
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span>uptime</span>
+                    </div>
+                    <div class="terminal-output">up 47 days, 12:34</div>
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span>docker ps | wc -l</span>
+                    </div>
+                    <div class="terminal-output">12 containers running</div>
+                    <div class="terminal-line">
+                        <span class="terminal-prompt">$</span>
+                        <span class="terminal-cursor"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Activity</span>
+                </div>
+                <div class="activity-list" id="activity">
+                    <div class="activity">
+                        <div class="activity-dot" style="background: #22c55e;"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">Security scan completed</div>
+                            <div class="activity-time">2 min ago</div>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-dot" style="background: #3b82f6;"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">Database backup done</div>
+                            <div class="activity-time">15 min ago</div>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-dot" style="background: #8b5cf6;"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">Deployed v2.4.1</div>
+                            <div class="activity-time">1 hour ago</div>
+                        </div>
+                    </div>
+                    <div class="activity">
+                        <div class="activity-dot" style="background: #f59e0b;"></div>
+                        <div class="activity-content">
+                            <div class="activity-text">Cache cleared</div>
+                            <div class="activity-time">3 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-brand">
+                Powered by <a href="https://hyperflash.uk" target="_blank" rel="noopener noreferrer">Hyperflash</a>
+            </div>
+            <div class="footer-time" id="time">00:00:00</div>
+        </footer>
+    </div>
+
+    <script>
+        // Time
+        function updateTime() {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Commands counter
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function updateCounts() {
+            const cmds = document.getElementById('commands-count');
+            const current = parseInt(cmds.textContent.replace(/,/g, ''));
+            cmds.textContent = (current + rand(1, 3)).toLocaleString();
+
+            if (Math.random() > 0.7) {
+                const tasks = document.getElementById('tasks-count');
+                tasks.textContent = parseInt(tasks.textContent) + 1;
+            }
+        }
+
+        setInterval(updateCounts, 5000);
+
+        // Terminal
+        const commands = [
+            { cmd: 'htop -n 1', out: '142 processes, load: 0.48' },
+            { cmd: 'df -h /', out: '42G used, 58G available' },
+            { cmd: 'free -h', out: 'Mem: 4.8G used, 3.2G free' },
+            { cmd: 'docker ps --format "{{.Names}}"', out: '12 containers healthy' },
+            { cmd: 'systemctl status caddy', out: 'active (running)' },
+            { cmd: 'tail -1 /var/log/syslog', out: '[OK] Health check passed' },
+        ];
+
+        let cmdIdx = 0;
+
+        function addCommand() {
+            const terminal = document.getElementById('terminal');
+            const c = commands[cmdIdx % commands.length];
+
+            const cursor = terminal.querySelector('.terminal-cursor');
+            if (cursor) cursor.parentElement.remove();
+
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = `<span class="terminal-prompt">$</span><span>${c.cmd}</span>`;
+            terminal.appendChild(line);
+
+            setTimeout(() => {
+                const out = document.createElement('div');
+                out.className = 'terminal-output';
+                out.textContent = c.out;
+                terminal.appendChild(out);
+
+                const prompt = document.createElement('div');
+                prompt.className = 'terminal-line';
+                prompt.innerHTML = `<span class="terminal-prompt">$</span><span class="terminal-cursor"></span>`;
+                terminal.appendChild(prompt);
+
+                terminal.scrollTop = terminal.scrollHeight;
+                cmdIdx++;
+            }, 300);
+
+            while (terminal.children.length > 20) {
+                terminal.removeChild(terminal.firstChild);
+            }
+        }
+
+        setInterval(addCommand, 5000);
+
+        // Activity
+        const activities = [
+            { text: 'Memory optimized', color: '#22c55e' },
+            { text: 'SSL cert renewed', color: '#3b82f6' },
+            { text: 'Logs rotated', color: '#8b5cf6' },
+            { text: 'Cache cleared', color: '#f59e0b' },
+            { text: 'Health check OK', color: '#22c55e' },
+            { text: 'Backup complete', color: '#3b82f6' },
+        ];
+
+        function addActivity() {
+            const list = document.getElementById('activity');
+            const a = activities[Math.floor(Math.random() * activities.length)];
+
+            const item = document.createElement('div');
+            item.className = 'activity';
+            item.innerHTML = `
+                <div class="activity-dot" style="background: ${a.color};"></div>
+                <div class="activity-content">
+                    <div class="activity-text">${a.text}</div>
+                    <div class="activity-time">Just now</div>
+                </div>
+            `;
+
+            list.insertBefore(item, list.firstChild);
+
+            while (list.children.length > 5) {
+                list.removeChild(list.lastChild);
+            }
+        }
+
+        setInterval(addActivity, 8000);
+    </script>
+</body>
+</html>

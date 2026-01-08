@@ -1,0 +1,23 @@
+# Add this to your Caddyfile for the metrics API reverse proxy
+
+# Agent metrics API - token protected
+@metrics {
+    path /metrics*
+    host api.hyperflash.uk
+    query token=YOUR_SECRET_TOKEN
+}
+
+@invalid_api {
+    path /metrics*
+    host api.hyperflash.uk
+    not query token=YOUR_SECRET_TOKEN
+}
+
+handle @invalid_api {
+    respond "Forbidden" 403
+}
+
+handle @metrics {
+    header Access-Control-Allow-Origin "https://agent.hyperflash.uk"
+    reverse_proxy metrics-agent:8000
+}

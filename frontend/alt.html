@@ -1,0 +1,2475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Agent - VPS Dashboard">
+    <meta name="author" content="Hyperflash">
+    <meta name="theme-color" content="#fafaf9">
+    <script defer src="https://umami.hyperflash.uk/script.js"
+        data-website-id="e241baef-c722-4136-b643-59c025d0cfaa"></script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://agent.hyperflash.uk/">
+    <meta property="og:title" content="Agent - VPS Dashboard">
+    <meta property="og:description" content="AI-powered VPS monitoring dashboard">
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='20' y='20' width='60' height='60' rx='12' fill='%23f97316'/></svg>">
+
+    <title>Agent | VPS Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Refined spacing scale */
+            --radius-xl: 28px;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+
+            /* Soft, layered shadows */
+            --shadow-soft: 0 20px 40px -12px rgba(0, 0, 0, 0.1), 0 8px 20px -8px rgba(0, 0, 0, 0.05);
+            --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+            --shadow-glow-orange: 0 20px 40px -12px rgba(249, 115, 22, 0.25);
+            --shadow-glow-teal: 0 20px 40px -12px rgba(20, 184, 166, 0.2);
+
+            /* Warm, inviting background */
+            --color-bg: #fafaf9;
+
+            /* Beautiful gradients */
+            --gradient-sunset: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%);
+            --gradient-ocean: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            --gradient-soft: linear-gradient(135deg, #ffffff 0%, #fafaf9 100%);
+            --gradient-emerald: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+            --gradient-midnight: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+            --gradient-rose: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+
+            /* Core colors */
+            --bg-dark: #0f172a;
+            --bg-white: #ffffff;
+
+            /* Typography colors */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --text-white: #ffffff;
+
+            /* Accent colors */
+            --accent-orange: #f97316;
+            --accent-green: #10b981;
+            --accent-teal: #14b8a6;
+            --accent-blue: #3b82f6;
+            --accent-amber: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+        }
+
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 48px 24px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-mark {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-sunset);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.125rem;
+            letter-spacing: -0.02em;
+            box-shadow: var(--shadow-glow-orange);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.375rem;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link {
+            padding: 12px 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            background: rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-link:hover {
+            color: var(--text-white);
+            background: var(--gradient-sunset);
+            border-color: transparent;
+            box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-link:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--accent-green);
+            padding: 10px 18px;
+            border-radius: 100px;
+            letter-spacing: -0.01em;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.4;
+                transform: scale(0.85);
+            }
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cards-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cards-single {
+            display: grid;
+            grid-template-columns: 1fr;
+            max-width: 400px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .cards-grid-half {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+        }
+
+        /* Card 1: Sunset Gradient */
+        .card-gradient {
+            background: var(--gradient-sunset);
+            color: var(--text-white);
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+            box-shadow: 0 20px 40px -12px rgba(249, 115, 22, 0.3);
+        }
+
+        .card-gradient:hover {
+            box-shadow: 0 28px 50px -12px rgba(249, 115, 22, 0.45);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            padding: 8px 14px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+            align-self: flex-start;
+        }
+
+        .card-gradient h2 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            letter-spacing: -0.035em;
+        }
+
+        .card-gradient p {
+            font-size: 0.9375rem;
+            line-height: 1.65;
+            opacity: 0.9;
+            margin-bottom: auto;
+            font-weight: 450;
+            letter-spacing: -0.01em;
+        }
+
+        .uptime-display {
+            margin-top: 28px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .uptime-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            font-feature-settings: 'tnum';
+        }
+
+        .uptime-label {
+            font-size: 0.875rem;
+            opacity: 0.85;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        /* Card 2: Ocean Dark */
+        .card-stats {
+            background: var(--gradient-ocean);
+            color: var(--text-white);
+            min-height: 320px;
+            box-shadow: 0 20px 40px -12px rgba(15, 23, 42, 0.4);
+        }
+
+        .card-stats:hover {
+            box-shadow: 0 28px 50px -12px rgba(15, 23, 42, 0.5);
+        }
+
+        .stat-block {
+            margin-bottom: 28px;
+        }
+
+        .stat-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            font-feature-settings: 'tnum';
+        }
+
+        .stat-row {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stat-sub {
+            font-size: 0.875rem;
+            color: var(--accent-green);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .stat-sub-text {
+            color: var(--text-muted);
+            font-size: 0.8125rem;
+            font-weight: 500;
+        }
+
+        /* Card 3: Soft White */
+        .card-info {
+            background: var(--gradient-soft);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            min-height: 320px;
+        }
+
+        .card-info:hover {
+            box-shadow: var(--shadow-soft);
+        }
+
+        .info-label {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-bottom: 14px;
+        }
+
+        .card-info h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 14px;
+            line-height: 1.25;
+            letter-spacing: -0.03em;
+        }
+
+        .card-info h2 span {
+            background: var(--gradient-sunset);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .info-desc {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: auto;
+            font-weight: 450;
+            letter-spacing: -0.01em;
+        }
+
+        .services-tags {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .service-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 8px 14px;
+            background: rgba(15, 23, 42, 0.04);
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            letter-spacing: -0.01em;
+            transition: background 0.2s ease;
+        }
+
+        .service-tag:hover {
+            background: rgba(15, 23, 42, 0.08);
+        }
+
+        /* Docker Containers */
+        .card-docker {
+            background: linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%);
+            color: var(--text-white);
+            min-height: 200px;
+        }
+
+        .card-docker:hover {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .docker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .docker-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .docker-logo {
+            font-size: 1.25rem;
+        }
+
+        .docker-count {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            background: rgba(34, 211, 238, 0.2);
+            color: #22d3ee;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .docker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .docker-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-sm);
+            transition: background 0.2s ease;
+        }
+
+        .docker-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .docker-item-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .docker-item-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+        }
+
+        .docker-item-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .docker-item-image {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        /* Card 10: Quick Actions */
+        .card-actions {
+            background: var(--gradient-soft);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            color: var(--text-primary);
+            min-height: 200px;
+        }
+
+        .card-actions:hover {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .actions-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: var(--bg-white);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .action-btn:hover {
+            background: var(--text-primary);
+            color: var(--text-white);
+            border-color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-icon {
+            font-size: 1.125rem;
+        }
+
+        .action-label {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Logs Preview */
+        .card-logs {
+            background: linear-gradient(135deg, #1c1917 0%, #292524 50%, #44403c 100%);
+            color: var(--text-white);
+            min-height: 200px;
+            font-family: var(--font-mono);
+        }
+
+        .card-logs:hover {
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .logs-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-family: var(--font-main);
+        }
+
+        .logs-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .logs-badge {
+            font-size: 0.5625rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .logs-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.6875rem;
+            line-height: 1.5;
+        }
+
+        .log-line {
+            display: flex;
+            gap: 8px;
+        }
+
+        .log-time {
+            color: #737373;
+            flex-shrink: 0;
+        }
+
+        .log-level {
+            flex-shrink: 0;
+            font-weight: 600;
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+
+        .log-level.info {
+            color: #60a5fa;
+        }
+
+        .log-level.success {
+            color: #4ade80;
+        }
+
+        .log-level.warn {
+            color: #fbbf24;
+        }
+
+        .log-message {
+            color: #d4d4d4;
+        }
+
+        /* Notices Section */
+        .notices-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+        }
+
+        .section-badge {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--accent-orange);
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .section-link {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .section-link:hover {
+            opacity: 0.7;
+        }
+
+        .notices-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .notice {
+            display: flex;
+            gap: 20px;
+            padding: 24px 28px;
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .notice:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .notice-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .notice-warning .notice-icon {
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .notice-info .notice-icon {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .notice-success .notice-icon {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .notice-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 16px;
+        }
+
+        .notice-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .notice-date {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .notice-text {
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 1000px) {
+            .notice {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .notice-header {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        /* Card 13: SSL Certificate - Holographic Shield */
+        .card-ssl {
+            background: #0a0a0a;
+            color: var(--text-white);
+            min-height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-ssl::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 80% at 80% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .card-ssl::after {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: conic-gradient(from 0deg, transparent, rgba(16, 185, 129, 0.1), transparent 30%);
+            animation: ssl-rotate 8s linear infinite;
+        }
+
+        @keyframes ssl-rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .card-ssl:hover {
+            box-shadow: 0 0 60px -12px rgba(16, 185, 129, 0.4);
+        }
+
+        .ssl-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ssl-shield {
+            width: 72px;
+            height: 84px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .ssl-shield::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+        }
+
+        .ssl-shield::after {
+            content: '✓';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .ssl-domain {
+            text-align: center;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ssl-expiry {
+            text-align: center;
+        }
+
+        .ssl-days {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: white;
+        }
+
+        .ssl-days span {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.5;
+            margin-left: 6px;
+            letter-spacing: 0;
+        }
+
+        .ssl-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.4;
+            margin-top: 4px;
+        }
+
+        /* Card 14: System Temperature - Thermal Vision */
+        .card-temp {
+            background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+            color: var(--text-white);
+            min-height: 220px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-temp::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 70%, rgba(239, 68, 68, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 70% 30%, rgba(251, 191, 36, 0.15) 0%, transparent 40%);
+        }
+
+        .card-temp:hover {
+            box-shadow: 0 20px 60px -12px rgba(239, 68, 68, 0.3);
+        }
+
+        .temp-display {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .temp-ring {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .temp-ring-bg {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 135deg,
+                    #22c55e 0deg,
+                    #eab308 90deg,
+                    #f97316 180deg,
+                    #ef4444 270deg,
+                    #22c55e 360deg);
+            opacity: 0.2;
+        }
+
+        .temp-ring-progress {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 135deg,
+                    #22c55e 0deg,
+                    #eab308 calc(var(--temp, 45) * 2deg),
+                    transparent calc(var(--temp, 45) * 2deg));
+            mask: radial-gradient(transparent 55%, black 56%);
+            -webkit-mask: radial-gradient(transparent 55%, black 56%);
+        }
+
+        .temp-ring-inner {
+            position: absolute;
+            inset: 12px;
+            border-radius: 50%;
+            background: #18181b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .temp-value {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(180deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .temp-unit {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.5;
+        }
+
+        .temp-readings {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .temp-reading-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .temp-reading-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .temp-reading-dot.cool {
+            color: #22c55e;
+            background: #22c55e;
+        }
+
+        .temp-reading-dot.warm {
+            color: #eab308;
+            background: #eab308;
+        }
+
+        .temp-reading-dot.hot {
+            color: #ef4444;
+            background: #ef4444;
+        }
+
+        .temp-reading-info {
+            flex: 1;
+        }
+
+        .temp-reading-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.5;
+        }
+
+        .temp-reading-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            font-feature-settings: 'tnum';
+        }
+
+        /* Card 15: Deployments - Git Flow */
+        .card-deploy {
+            background: #fafafa;
+            color: var(--text-primary);
+            min-height: 220px;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .card-deploy:hover {
+            box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .deploy-flow {
+            position: relative;
+        }
+
+        .deploy-branch {
+            position: absolute;
+            left: 19px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #22c55e, #3b82f6, #a855f7);
+        }
+
+        .deploy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .deploy-commit {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding-left: 0;
+        }
+
+        .deploy-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .deploy-commit:nth-child(1) .deploy-node {
+            border-color: #22c55e;
+        }
+
+        .deploy-commit:nth-child(2) .deploy-node {
+            border-color: #3b82f6;
+        }
+
+        .deploy-commit:nth-child(3) .deploy-node {
+            border-color: #a855f7;
+        }
+
+        .deploy-details {
+            flex: 1;
+            padding-top: 8px;
+        }
+
+        .deploy-version {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
+        }
+
+        .deploy-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .deploy-hash {
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+            color: var(--text-secondary);
+        }
+
+        /* Card 16: Visitor Stats - Wave Analytics */
+        .card-visitors {
+            background: var(--gradient-sunset);
+            color: #1a0a00;
+            min-height: 220px;
+            position: relative;
+            box-shadow: 0 20px 40px -12px rgba(249, 115, 22, 0.3);
+        }
+
+        .card-visitors:hover {
+            box-shadow: 0 28px 50px -12px rgba(249, 115, 22, 0.45);
+        }
+
+        .visitors-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .visitors-count {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: #1a0a00;
+        }
+
+        .visitors-label {
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            margin-top: 4px;
+            color: #1a0a00;
+        }
+
+        .visitors-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 100px;
+            color: #1a0a00;
+            font-size: 0.8125rem;
+            font-weight: 700;
+        }
+
+        .visitors-stats {
+            display: flex;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+            margin-top: 8px;
+        }
+
+        .visitor-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .visitor-stat-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .visitor-stat-value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            font-feature-settings: 'tnum';
+            color: #1a0a00;
+        }
+
+        .visitor-stat-label {
+            font-size: 0.6875rem;
+            opacity: 0.6;
+            color: #1a0a00;
+        }
+
+        /* Scheduled Tasks - Timeline */
+        .card-cron {
+            background: #ffffff;
+            color: var(--text-primary);
+            min-height: 220px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .card-cron:hover {
+            box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cron-title {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .cron-timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .cron-timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: linear-gradient(180deg, #f97316, #ec4899, #8b5cf6);
+            border-radius: 1px;
+        }
+
+        .cron-event {
+            position: relative;
+            padding: 12px 0;
+        }
+
+        .cron-event::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            background: white;
+            border: 3px solid;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cron-event:nth-child(1)::before {
+            border-color: #f97316;
+        }
+
+        .cron-event:nth-child(2)::before {
+            border-color: #ec4899;
+        }
+
+        .cron-event:nth-child(3)::before {
+            border-color: #8b5cf6;
+        }
+
+        .cron-event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .cron-event-name {
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .cron-event-time {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-feature-settings: 'tnum';
+        }
+
+        .cron-event-schedule {
+            font-family: var(--font-mono);
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Bottom Panel */
+        .panel {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-subtle);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.35s ease;
+        }
+
+        .panel:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .panel-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+        }
+
+        .panel-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-section:first-child {
+            border-right: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .panel-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .panel-badge {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--accent-orange);
+            border-radius: 100px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Terminal */
+        .terminal {
+            background: var(--bg-dark);
+            padding: 20px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: #e2e8f0;
+            min-height: 200px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .terminal::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .terminal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .terminal::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 2px;
+        }
+
+        .terminal-line {
+            margin-bottom: 6px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        .terminal-output {
+            color: var(--accent-teal);
+            padding-left: 24px;
+            margin-bottom: 8px;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 9px;
+            height: 1.15em;
+            background: var(--accent-orange);
+            border-radius: 2px;
+            animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Activity */
+        .activity-list {
+            padding: 6px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .activity {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 24px;
+            transition: background 0.2s ease;
+        }
+
+        .activity:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .activity-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            padding-top: 48px;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-brand {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .footer-brand a {
+            color: var(--accent-orange);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-brand a:hover {
+            opacity: 0.7;
+        }
+
+        .footer-time {
+            font-family: var(--font-mono);
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.03);
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-feature-settings: 'tnum';
+        }
+
+        /* About Section */
+        .about-section {
+            margin-top: 40px;
+        }
+
+        .card-about {
+            background: var(--gradient-ocean);
+            color: var(--text-white);
+            padding: 48px;
+        }
+
+        .card-about:hover {
+            box-shadow: 0 28px 60px -12px rgba(15, 23, 42, 0.5);
+        }
+
+        .about-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 16px;
+            max-width: 720px;
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .about-tag {
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--bg-white);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            width: 100%;
+            max-width: 440px;
+            margin: 20px;
+            position: relative;
+            transform: translateY(20px) scale(0.95);
+            transition: transform 0.3s ease;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.03em;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 0.9375rem;
+            font-family: var(--font-main);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--radius-md);
+            background: var(--bg-white);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 14px 24px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            font-family: var(--font-main);
+            color: var(--text-white);
+            background: var(--gradient-sunset);
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px -6px rgba(249, 115, 22, 0.4);
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px -6px rgba(249, 115, 22, 0.5);
+        }
+
+        .form-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 10px 16px;
+                font-size: 0.8125rem;
+            }
+
+            .cards-grid,
+            .cards-grid-2,
+            .cards-grid-half {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                min-height: auto;
+            }
+
+            .panel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-section:first-child {
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            }
+
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .temp-display {
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+            }
+
+            .temp-readings {
+                width: 100%;
+            }
+
+            .visitors-stats {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .visitor-stat {
+                justify-content: flex-start;
+            }
+
+            .deploy-branch {
+                left: 19px;
+            }
+
+            .process-row {
+                grid-template-columns: 24px 1fr 40px 40px;
+                gap: 8px;
+            }
+
+            .cron-timeline {
+                padding-left: 20px;
+            }
+
+            .cron-event::before {
+                left: -20px;
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            .header {
+                gap: 12px;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-link {
+                padding: 8px 14px;
+                font-size: 0.75rem;
+            }
+
+            .logo-mark {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .logo-text {
+                font-size: 1.125rem;
+            }
+
+            .card {
+                padding: 28px;
+            }
+
+            .card-gradient h2 {
+                font-size: 1.625rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .docker-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .docker-item-image {
+                margin-left: 18px;
+            }
+
+            .logs-content {
+                font-size: 0.625rem;
+            }
+
+            .log-message {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 120px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                padding-top: 32px;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-mark">A</div>
+                <span class="logo-text">Agent</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#about" class="nav-link">About</a>
+                <button class="nav-link" id="contact-btn">Contact</button>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <!-- Main Cards -->
+            <div class="cards-grid-half">
+                <!-- Card 1: Sunset Gradient -->
+                <article class="card card-gradient">
+                    <div class="badge">AI-Powered VPS</div>
+                    <h2>Your Server,<br>On Autopilot</h2>
+                    <p>Claude Code monitors and manages your VPS infrastructure around the clock, handling maintenance
+                        automatically.</p>
+                    <div class="uptime-display">
+                        <span class="uptime-value">99.9%</span>
+                        <span class="uptime-label">uptime this month</span>
+                    </div>
+                </article>
+
+
+                <!-- Card 2: Soft White -->
+                <article class="card card-info">
+                    <div class="info-label">System Profile</div>
+                    <h2>Running as<br><span>Infrastructure Agent</span></h2>
+                    <p class="info-desc">Consistent service management with automated health checks, security scans, and
+                        performance optimizations.</p>
+                    <div class="services-tags">
+                        <span class="service-tag">Docker</span>
+                        <span class="service-tag">Caddy</span>
+                        <span class="service-tag">Cloudflared</span>
+                        <span class="service-tag">Tailscale</span>
+                        <span class="service-tag">SSH</span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Notices Section -->
+            <section class="notices-section" id="notices">
+                <div class="section-header">
+                    <h2 class="section-title">Notices</h2>
+                    <span class="section-badge">1 New</span>
+                </div>
+                <article class="notice notice-info">
+                    <div class="notice-icon">🚀</div>
+                    <div class="notice-content">
+                        <div class="notice-header">
+                            <h3 class="notice-title">New Region Available: Singapore</h3>
+                            <time class="notice-date">Jan 10, 2026</time>
+                        </div>
+                        <p class="notice-text">We've expanded to Singapore! Migrate your workloads for improved latency
+                            across Asia-Pacific.</p>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Cards Row -->
+            <div class="cards-grid" id="dashboard">
+                <!-- Docker Containers -->
+                <article class="card card-docker">
+                    <div class="docker-header">
+                        <div class="docker-title">
+                            <span class="docker-logo">🐳</span>
+                            <span>Containers</span>
+                        </div>
+                        <div class="docker-count">12 Running</div>
+                    </div>
+                    <div class="docker-list">
+                        <div class="docker-item">
+                            <div class="docker-item-info">
+                                <div class="docker-item-status"></div>
+                                <span class="docker-item-name">nginx-proxy</span>
+                            </div>
+                            <span class="docker-item-image">nginx:alpine</span>
+                        </div>
+                        <div class="docker-item">
+                            <div class="docker-item-info">
+                                <div class="docker-item-status"></div>
+                                <span class="docker-item-name">postgres-db</span>
+                            </div>
+                            <span class="docker-item-image">postgres:15</span>
+                        </div>
+                        <div class="docker-item">
+                            <div class="docker-item-info">
+                                <div class="docker-item-status"></div>
+                                <span class="docker-item-name">redis-cache</span>
+                            </div>
+                            <span class="docker-item-image">redis:7</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Quick Actions -->
+                <article class="card card-actions">
+                    <div class="actions-title">Quick Actions</div>
+                    <div class="actions-grid">
+                        <button class="action-btn">
+                            <span class="action-icon">🔄</span>
+                            <span class="action-label">Restart</span>
+                        </button>
+                        <button class="action-btn">
+                            <span class="action-icon">🧹</span>
+                            <span class="action-label">Clear Cache</span>
+                        </button>
+                        <button class="action-btn">
+                            <span class="action-icon">📊</span>
+                            <span class="action-label">View Logs</span>
+                        </button>
+                        <button class="action-btn">
+                            <span class="action-icon">💾</span>
+                            <span class="action-label">Backup Now</span>
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Logs Preview -->
+                <article class="card card-logs">
+                    <div class="logs-header">
+                        <span class="logs-title">System Logs</span>
+                        <span class="logs-badge">Live</span>
+                    </div>
+                    <div class="logs-content">
+                        <div class="log-line">
+                            <span class="log-time">12:34:56</span>
+                            <span class="log-level info">INFO</span>
+                            <span class="log-message">Health check passed</span>
+                        </div>
+                        <div class="log-line">
+                            <span class="log-time">12:34:52</span>
+                            <span class="log-level success">OK</span>
+                            <span class="log-message">SSL certificate valid</span>
+                        </div>
+                        <div class="log-line">
+                            <span class="log-time">12:34:48</span>
+                            <span class="log-level info">INFO</span>
+                            <span class="log-message">Container nginx started</span>
+                        </div>
+                        <div class="log-line">
+                            <span class="log-time">12:34:41</span>
+                            <span class="log-level warn">WARN</span>
+                            <span class="log-message">Memory usage at 78%</span>
+                        </div>
+                        <div class="log-line">
+                            <span class="log-time">12:34:35</span>
+                            <span class="log-level success">OK</span>
+                            <span class="log-message">Backup completed</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Second Cards Row -->
+            <div class="cards-grid">
+                <!-- SSL Certificate - Holographic Shield -->
+                <article class="card card-ssl">
+                    <div class="ssl-content">
+                        <div class="ssl-shield"></div>
+                        <div class="ssl-domain">*.hyperflash.uk</div>
+                        <div class="ssl-expiry">
+                            <div class="ssl-days" id="ssl-days">87<span>days</span></div>
+                            <div class="ssl-label">until renewal</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 14: System Temperature - Thermal Vision -->
+                <article class="card card-temp">
+                    <div class="temp-display">
+                        <div class="temp-ring">
+                            <div class="temp-ring-bg"></div>
+                            <div class="temp-ring-progress" id="temp-ring" style="--temp: 45"></div>
+                            <div class="temp-ring-inner">
+                                <div class="temp-value" id="temp-main">45°</div>
+                                <div class="temp-unit">Celsius</div>
+                            </div>
+                        </div>
+                        <div class="temp-readings">
+                            <div class="temp-reading-item">
+                                <div class="temp-reading-dot warm"></div>
+                                <div class="temp-reading-info">
+                                    <div class="temp-reading-label">CPU Core</div>
+                                    <div class="temp-reading-value" id="temp-cpu-val">45°C</div>
+                                </div>
+                            </div>
+                            <div class="temp-reading-item">
+                                <div class="temp-reading-dot cool"></div>
+                                <div class="temp-reading-info">
+                                    <div class="temp-reading-label">GPU</div>
+                                    <div class="temp-reading-value" id="temp-gpu-val">38°C</div>
+                                </div>
+                            </div>
+                            <div class="temp-reading-item">
+                                <div class="temp-reading-dot cool"></div>
+                                <div class="temp-reading-info">
+                                    <div class="temp-reading-label">NVMe</div>
+                                    <div class="temp-reading-value" id="temp-ssd-val">32°C</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 15: Deployments - Git Flow -->
+                <article class="card card-deploy">
+                    <div class="deploy-flow">
+                        <div class="deploy-branch"></div>
+                        <div class="deploy-list">
+                            <div class="deploy-commit">
+                                <div class="deploy-node">✓</div>
+                                <div class="deploy-details">
+                                    <div class="deploy-version">v2.4.1</div>
+                                    <div class="deploy-meta">
+                                        <span>2 hours ago</span>
+                                        <span class="deploy-hash">a3f8c2d</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="deploy-commit">
+                                <div class="deploy-node">✓</div>
+                                <div class="deploy-details">
+                                    <div class="deploy-version">v2.4.0</div>
+                                    <div class="deploy-meta">
+                                        <span>Yesterday</span>
+                                        <span class="deploy-hash">7b2e1f9</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="deploy-commit">
+                                <div class="deploy-node">✓</div>
+                                <div class="deploy-details">
+                                    <div class="deploy-version">v2.3.8</div>
+                                    <div class="deploy-meta">
+                                        <span>3 days ago</span>
+                                        <span class="deploy-hash">e9c4a21</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Third Cards Row -->
+            <div class="cards-grid-half">
+                <!-- Visitor Stats - Wave Analytics -->
+                <article class="card card-visitors">
+                    <div class="visitors-header">
+                        <div>
+                            <div class="visitors-count" id="visitors-total">12,847</div>
+                            <div class="visitors-label">Visitors Today</div>
+                        </div>
+                        <div class="visitors-trend">↑ 24%</div>
+                    </div>
+                    <div class="visitors-stats">
+                        <div class="visitor-stat">
+                            <div class="visitor-stat-dot" style="background: rgba(26,10,0,0.8)"></div>
+                            <div class="visitor-stat-value">48.2K</div>
+                            <div class="visitor-stat-label">views</div>
+                        </div>
+                        <div class="visitor-stat">
+                            <div class="visitor-stat-dot" style="background: rgba(26,10,0,0.6)"></div>
+                            <div class="visitor-stat-value">3:42</div>
+                            <div class="visitor-stat-label">avg</div>
+                        </div>
+                        <div class="visitor-stat">
+                            <div class="visitor-stat-dot" style="background: rgba(26,10,0,0.4)"></div>
+                            <div class="visitor-stat-value">32%</div>
+                            <div class="visitor-stat-label">bounce</div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Scheduled Tasks - Timeline -->
+                <article class="card card-cron">
+                    <div class="cron-title">Scheduled Tasks</div>
+                    <div class="cron-timeline">
+                        <div class="cron-event">
+                            <div class="cron-event-header">
+                                <span class="cron-event-name">Daily Backup</span>
+                                <span class="cron-event-time">3:00 AM</span>
+                            </div>
+                            <span class="cron-event-schedule">0 3 * * *</span>
+                        </div>
+                        <div class="cron-event">
+                            <div class="cron-event-header">
+                                <span class="cron-event-name">Log Rotation</span>
+                                <span class="cron-event-time">Sunday</span>
+                            </div>
+                            <span class="cron-event-schedule">0 0 * * 0</span>
+                        </div>
+                        <div class="cron-event">
+                            <div class="cron-event-header">
+                                <span class="cron-event-name">Cache Clear</span>
+                                <span class="cron-event-time">Every 30m</span>
+                            </div>
+                            <span class="cron-event-schedule">*/30 * * * *</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Bottom Panel -->
+            <div class="panel" id="terminal">
+                <div class="panel-grid">
+                    <!-- Terminal Section -->
+                    <div class="panel-section">
+                        <div class="panel-header">
+                            <span class="panel-title">Terminal</span>
+                            <span class="panel-badge">Live</span>
+                        </div>
+                        <div class="terminal" id="terminal-output">
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">$</span>
+                                <span>uptime</span>
+                            </div>
+                            <div class="terminal-output">up 47 days, 12:34</div>
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">$</span>
+                                <span>docker ps | wc -l</span>
+                            </div>
+                            <div class="terminal-output">12 containers running</div>
+                            <div class="terminal-line">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-cursor"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Section -->
+                    <div class="panel-section">
+                        <div class="panel-header">
+                            <span class="panel-title">Activity</span>
+                        </div>
+                        <div class="activity-list" id="activity">
+                            <div class="activity">
+                                <div class="activity-dot" style="background: #10b981;"></div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Security scan completed</div>
+                                    <div class="activity-time">2 min ago</div>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-dot" style="background: #3b82f6;"></div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Database backup done</div>
+                                    <div class="activity-time">15 min ago</div>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-dot" style="background: #f97316;"></div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Deployed v2.4.1</div>
+                                    <div class="activity-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            <div class="activity">
+                                <div class="activity-dot" style="background: #14b8a6;"></div>
+                                <div class="activity-content">
+                                    <div class="activity-text">Cache cleared</div>
+                                    <div class="activity-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <section class="about-section" id="about">
+                <article class="card card-about">
+                    <div class="about-content">
+                        <h2 class="about-title">About Agent</h2>
+                        <p class="about-text">Agent is an AI-powered VPS management dashboard built by Hyperflash. It monitors your server infrastructure 24/7, handling maintenance tasks automatically so you can focus on what matters.</p>
+                        <p class="about-text">Using Claude Code as its backbone, Agent performs health checks, security scans, automated deployments, and performance optimizations without manual intervention.</p>
+                        <div class="about-tags">
+                            <span class="about-tag">AI-Powered</span>
+                            <span class="about-tag">24/7 Monitoring</span>
+                            <span class="about-tag">Auto-Scaling</span>
+                            <span class="about-tag">Self-Healing</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+
+        <!-- Contact Modal -->
+        <div class="modal-overlay" id="contact-modal">
+            <div class="modal">
+                <button class="modal-close" id="modal-close">&times;</button>
+                <h2 class="modal-title">Get in Touch</h2>
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" id="name" class="form-input" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="message">Message</label>
+                        <textarea id="message" class="form-input form-textarea" placeholder="How can we help?" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-brand">
+                Powered by <a href="https://hyperflash.uk" target="_blank" rel="noopener noreferrer">Hyperflash</a>
+            </div>
+            <div class="footer-time" id="time">00:00:00</div>
+        </footer>
+    </div>
+
+    <script>
+        // Time
+        function updateTime() {
+            const now = new Date();
+            const timeEl = document.getElementById('time');
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('en-US', { hour12: false });
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Commands counter
+        function rand(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function updateCounts() {
+            const cmds = document.getElementById('commands-count');
+            const current = parseInt(cmds.textContent.replace(/,/g, ''));
+            cmds.textContent = (current + rand(1, 3)).toLocaleString();
+
+            if (Math.random() > 0.7) {
+                const tasks = document.getElementById('tasks-count');
+                tasks.textContent = parseInt(tasks.textContent) + 1;
+            }
+        }
+
+        setInterval(updateCounts, 5000);
+
+        // Terminal
+        const commands = [
+            { cmd: 'htop -n 1', out: '142 processes, load: 0.48' },
+            { cmd: 'df -h /', out: '42G used, 58G available' },
+            { cmd: 'free -h', out: 'Mem: 4.8G used, 3.2G free' },
+            { cmd: 'docker ps --format "{{.Names}}"', out: '12 containers healthy' },
+            { cmd: 'systemctl status caddy', out: 'active (running)' },
+            { cmd: 'tail -1 /var/log/syslog', out: '[OK] Health check passed' },
+        ];
+
+        let cmdIdx = 0;
+
+        function addCommand() {
+            const terminal = document.getElementById('terminal-output');
+            const c = commands[cmdIdx % commands.length];
+
+            const cursor = terminal.querySelector('.terminal-cursor');
+            if (cursor) cursor.parentElement.remove();
+
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.innerHTML = `<span class="terminal-prompt">$</span><span>${c.cmd}</span>`;
+            terminal.appendChild(line);
+
+            setTimeout(() => {
+                const out = document.createElement('div');
+                out.className = 'terminal-output';
+                out.textContent = c.out;
+                terminal.appendChild(out);
+
+                const prompt = document.createElement('div');
+                prompt.className = 'terminal-line';
+                prompt.innerHTML = `<span class="terminal-prompt">$</span><span class="terminal-cursor"></span>`;
+                terminal.appendChild(prompt);
+
+                terminal.scrollTop = terminal.scrollHeight;
+                cmdIdx++;
+            }, 300);
+
+            while (terminal.children.length > 20) {
+                terminal.removeChild(terminal.firstChild);
+            }
+        }
+
+        setInterval(addCommand, 5000);
+
+        // Activity
+        const activities = [
+            { text: 'Memory optimized', color: '#10b981' },
+            { text: 'SSL cert renewed', color: '#3b82f6' },
+            { text: 'Logs rotated', color: '#f97316' },
+            { text: 'Cache cleared', color: '#14b8a6' },
+            { text: 'Health check OK', color: '#10b981' },
+            { text: 'Backup complete', color: '#3b82f6' },
+        ];
+
+        function addActivity() {
+            const list = document.getElementById('activity');
+            const a = activities[Math.floor(Math.random() * activities.length)];
+
+            const item = document.createElement('div');
+            item.className = 'activity';
+            item.innerHTML = `
+                <div class="activity-dot" style="background: ${a.color};"></div>
+                <div class="activity-content">
+                    <div class="activity-text">${a.text}</div>
+                    <div class="activity-time">Just now</div>
+                </div>
+            `;
+
+            list.insertBefore(item, list.firstChild);
+
+            while (list.children.length > 5) {
+                list.removeChild(list.lastChild);
+            }
+        }
+
+        setInterval(addActivity, 8000);
+
+        // Temperature updates - Thermal Vision
+        function updateTemperature() {
+            const cpuTemp = rand(42, 58);
+            const gpuTemp = rand(35, 45);
+            const ssdTemp = rand(28, 38);
+
+            const tempRing = document.getElementById('temp-ring');
+            const tempMain = document.getElementById('temp-main');
+            if (tempRing) {
+                tempRing.style.setProperty('--temp', cpuTemp);
+                tempMain.textContent = cpuTemp + '°';
+                document.getElementById('temp-cpu-val').textContent = cpuTemp + '°C';
+                document.getElementById('temp-gpu-val').textContent = gpuTemp + '°C';
+                document.getElementById('temp-ssd-val').textContent = ssdTemp + '°C';
+
+                // Update dot colors based on temp
+                const dots = document.querySelectorAll('.temp-reading-dot');
+                dots[0].className = 'temp-reading-dot ' + (cpuTemp > 50 ? 'hot' : cpuTemp > 40 ? 'warm' : 'cool');
+                dots[1].className = 'temp-reading-dot ' + (gpuTemp > 45 ? 'warm' : 'cool');
+                dots[2].className = 'temp-reading-dot ' + (ssdTemp > 40 ? 'warm' : 'cool');
+            }
+        }
+
+        setInterval(updateTemperature, 5000);
+
+        // Visitor count animation
+        function updateVisitors() {
+            const total = document.getElementById('visitors-total');
+            if (total) {
+                const current = parseInt(total.textContent.replace(/,/g, ''));
+                total.textContent = (current + rand(5, 25)).toLocaleString();
+            }
+        }
+
+        setInterval(updateVisitors, 6000);
+
+        // Contact Modal
+        const contactBtn = document.getElementById('contact-btn');
+        const contactModal = document.getElementById('contact-modal');
+        const modalClose = document.getElementById('modal-close');
+        const contactForm = document.getElementById('contact-form');
+
+        contactBtn.addEventListener('click', () => {
+            contactModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        modalClose.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.classList.contains('active')) {
+                contactModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Here you would handle form submission
+            alert('Message sent! (Demo)');
+            contactModal.classList.remove('active');
+            document.body.style.overflow = '';
+            contactForm.reset();
+        });
+
+    </script>
+</body>
+
+</html>
