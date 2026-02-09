@@ -1,0 +1,44 @@
+/**
+ * HyperFlash Agent Dashboard - Local Configuration Example
+ *
+ * Copy this file to config.local.js and customize the values for YOUR deployment.
+ *
+ * IMPORTANT:
+ * - config.local.js is ignored by git (never commits your secrets)
+ * - config.js contains the default/example values
+ * - config.local.js overrides config.js values when present
+ */
+
+const CONFIG = {
+  // ===== YOUR DASHBOARD CONFIGURATION =====
+
+  // Your agent dashboard URL (for meta tags and sharing)
+  DASHBOARD_URL: 'https://your-domain.com/',
+
+  // Your metrics API endpoint
+  // Get your token from your backend deployment
+  AGENT_API: 'https://api.your-domain.com/metrics?token=YOUR_TOKEN_HERE',
+
+  // ===== ANALYTICS (OPTIONAL) =====
+
+  // Umami analytics (set to null to disable)
+  UMAMI_URL: 'https://umami.your-domain.com/script.js',
+  UMAMI_WEBSITE_ID: 'your-website-id-here',
+
+  // Cloudflare Web Analytics (set to null to disable)
+  CLOUDFLARE_BEACON_TOKEN: 'your-cloudflare-token',
+
+  // ===== BRANDING =====
+
+  // Domain name to display in SSL certificate badge
+  DOMAIN_NAME: 'your-domain.com',
+
+  // Branding for "Powered by" footer link
+  BRAND_NAME: 'Your Brand',
+  BRAND_URL: 'https://your-brand.com',
+
+  // Page metadata
+  PAGE_TITLE: 'Agent | VPS Dashboard',
+  PAGE_DESCRIPTION: 'AI-powered VPS monitoring dashboard',
+  PAGE_AUTHOR: 'Your Name',
+};

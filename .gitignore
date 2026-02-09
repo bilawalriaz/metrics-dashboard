@@ -1,0 +1,13 @@
+# Local configuration (contains secrets and personal settings)
+config.local.js
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
